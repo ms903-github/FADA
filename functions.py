@@ -8,31 +8,14 @@ from load_usps import sort_mnist
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-def G1_sampler_4(dataset, batchsize = 2, search_range = 1000, pair_num = 10):
+
+
+def G1_sampler(dataset, search_range = 100, pair_num = 10):
     batches = []
+    checkpoint = np.random.randint(0, len(dataset) - search_range)
     for num in range(10):
         positive_list = []
-        for i in range(search_range):
-            if dataset[i][1] == num:
-                positive_list.append(dataset[i])
-        batches.append(positive_list)           #batchesのｎ番目に[(数値ｎのテンソル), 数値ｎ]が格納されている
-    pairs = []
-    for i in range(pair_num):
-        pair_cand_1 = random.choice(batches)
-        pair_cand_2 = random.choice(batches)
-        pair1 = random.choices(pair_cand_1, k = 2)
-        pair2 = random.choices(pair_cand_2, k = 2)
-        pair = pair1 + pair2
-        pairs.append(pair)
-
-    return(pairs)
-
-
-def G1_sampler(dataset, search_range = 1000, pair_num = 10):
-    batches = []
-    for num in range(10):
-        positive_list = []
-        for i in range(search_range):
+        for i in range(checkpoint, checkpoint + search_range):
             if dataset[i][1] == num:
                 positive_list.append(dataset[i])
         batches.append(positive_list)           #batchesのｎ番目に[(数値ｎのテンソル), 数値ｎ]が格納されている
@@ -45,29 +28,7 @@ def G1_sampler(dataset, search_range = 1000, pair_num = 10):
     return(pairs)
 
 
-def G2_sampler_4(source_dataset, target_dataset, batchsize = 2, search_range = 30, pair_num = 10):
-    source_batches = []
-    target_batches = []
-    for num in range(10):
-        s_positive_list = []
-        t_positive_list = []
-        for i in range(search_range):
-            if source_dataset[i][1] == num:
-                s_positive_list.append(source_dataset[i])
-            if target_dataset[i][1] == num:
-                t_positive_list.append(target_dataset[i])
-        source_batches.append(s_positive_list)           #batchesのｎ番目に[(数値ｎのテンソル), 数値ｎ]が格納されている
-        target_batches.append(t_positive_list)
-    pairs = []
-    for i in range(pair_num):
-        pair_cand_1 = random.choice(source_batches)
-        pair_cand_2 = random.choice(target_batches)
-        pair1 = random.choices(pair_cand_1, k = 2)
-        pair2 = random.choices(pair_cand_2, k = 2)
-        pair = pair1 + pair2
-        pairs.append(pair)
 
-    return(pairs)
 
 def G2_sampler(source_dataset, target_dataset, batchsize = 2, search_range = 30, pair_num = 10):
     source_batches = []
@@ -95,31 +56,14 @@ def G2_sampler(source_dataset, target_dataset, batchsize = 2, search_range = 30,
     return(pairs)
 
 
-def G3_sampler_4(dataset, batchsize = 2, search_range = 1000, pair_num = 10):
+
+
+def G3_sampler(dataset, batchsize = 2, search_range = 100, pair_num = 10):
     batches = []
+    checkpoint = np.random.randint(0, len(dataset) - search_range)
     for num in range(10):
         positive_list = []
-        for i in range(search_range):
-            if dataset[i][1] == num:
-                positive_list.append(dataset[i])
-        batches.append(positive_list)           #batchesのｎ番目に[(数値ｎのテンソル), 数値ｎ]が格納されている
-    pairs = []
-    for i in range(pair_num):
-        cand_num1, cand_num2, cand_num3, cand_num4 = random.sample(batches, k = 4)
-        num1 = random.choice(cand_num1)
-        num2 = random.choice(cand_num2)
-        num3 = random.choice(cand_num3)
-        num4 = random.choice(cand_num4)
-        pair = [num1, num2, num3, num4]
-        pairs.append(pair)
-
-    return(pairs)
-
-def G3_sampler(dataset, batchsize = 2, search_range = 1000, pair_num = 10):
-    batches = []
-    for num in range(10):
-        positive_list = []
-        for i in range(search_range):
+        for i in range(checkpoint, checkpoint + search_range):
             if dataset[i][1] == num:
                 positive_list.append(dataset[i])
         batches.append(positive_list)           #batchesのｎ番目に[(数値ｎのテンソル), 数値ｎ]が格納されている

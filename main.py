@@ -171,7 +171,7 @@ for epoch in range(num_ep_train):
     net_DCD.train()
     optimizer_DCD = torch.optim.Adam(net_DCD.parameters(), lr = 0.01)
     G_dataloader = G_sampler(s_trainset, t_trainset, net_g, DCD_batchnum, device = device)
-    #G_dataloader:バッチサイズ４０(=pair_num * 10)がbatch_num個だけ入ってる [[[datax40][labelx40]]xbatch_num]
+    #G_dataloader:バッチサイズ４０(=pair_num * 4)がbatch_num個だけ入ってる [[[datax40][labelx40]]xbatch_num]
     loss_s = 0
     for data, label in G_dataloader:
         data, label = data.to(device), label.to(device)
@@ -233,4 +233,3 @@ file.write("dcd_test_acc"+str(dcd_test_acc)+"\n")
 file.write("cls_s_test_acc"+str(cls_s_test_acc)+"\n")
 file.write("cls_t_test_acc"+str(cls_t_test_acc)+"\n")
 file.close()
-

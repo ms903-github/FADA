@@ -75,5 +75,3 @@ def sort_mnist(dataset, data_per_class):
         dataset_sort = dataset_sort + data
 
     return(dataset_sort)
-test = load_usps(3)
-print(test)
